@@ -1,2 +1,16 @@
 server:
   port: 8081
+
+spring:
+  application:
+    name: customer
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:172.20.0.2}:${MYSQL_PORT:3306}/${MYSQL_DB_NAME:microservice_customer_db}?autoReconnect=true&useSSL=false
+    username: ${MYSQL_USER:admin}
+    password: ${MYSQL_PASSWORD:password}
+    driverClassName: com.mysql.cj.jdbc.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    #database-platform: org.hibernate.dialect.MySQL5Dialect
+    hibernate:
+      ddl-auto: update
