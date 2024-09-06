@@ -5,7 +5,7 @@ spring:
   application:
     name: fraud
   datasource:
-    url: jdbc:mysql://${MYSQL_HOST:172.19.0.3}:${MYSQL_PORT:3306}/${MYSQL_DB_NAME:microservice_fraud_db}?autoReconnect=true&useSSL=false
+    url: jdbc:mysql://${MYSQL_HOST:172.19.0.2}:${MYSQL_PORT:3306}/${MYSQL_DB_NAME:microservice_fraud_db}?autoReconnect=true&useSSL=false
     username: ${MYSQL_USER:admin}
     password: ${MYSQL_PASSWORD:password}
     driverClassName: com.mysql.cj.jdbc.Driver
@@ -13,4 +13,13 @@ spring:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     #database-platform: org.hibernate.dialect.MySQL5Dialect
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: ${eureka_url:http://localhost:8761/eureka/}
