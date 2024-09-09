@@ -1,6 +1,6 @@
 package com.glancies.fraud.controller;
 
-import com.glancies.fraud.response.FraudCheckResponse;
+import com.glancies.clients.fraud.FraudCheckResponse;
 import com.glancies.fraud.service.FraudCheckHistoryService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,4 +1,4 @@
-package com.glancies.fraud.response;
+package com.glancies.clients.fraud;
 
 public record FraudCheckResponse(boolean isFraudster) {
 }
