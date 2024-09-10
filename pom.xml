@@ -21,6 +21,7 @@
 		<module>eureka-server</module>
 		<module>clients</module>
         <module>notification</module>
+        <module>employee</module>
     </modules>
 	<scm>
 		<connection/>
