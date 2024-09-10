@@ -22,6 +22,7 @@
 		<module>clients</module>
         <module>notification</module>
         <module>employee</module>
+        <module>api-gateway</module>
     </modules>
 	<scm>
 		<connection/>
