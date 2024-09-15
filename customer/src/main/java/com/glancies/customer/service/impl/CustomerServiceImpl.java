@@ -1,5 +1,6 @@
 package com.glancies.customer.service.impl;
 
+import com.glacies.ampq.RabbitMQMessageProducer;
 import com.glancies.clients.fraud.FraudCheckResponse;
 import com.glancies.clients.fraud.FraudClient;
 import com.glancies.clients.notification.NotificationClient;
@@ -16,19 +17,21 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 @AllArgsConstructor
-@NoArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
-    private CustomerRepository customerRepository;
+    private final CustomerRepository customerRepository;
 
     private RestTemplate restTemplate;
 
     @Autowired
-    private FraudClient fraudClient;
+    private final FraudClient fraudClient;
 
     @Autowired
     private NotificationClient notificationClient;
+
+    @Autowired
+    private final RabbitMQMessageProducer rabbitMQMessageProducer;
 
     public Customer registerCustomer(CustomerRegistrationRequest request) {
         Customer customer = Customer.builder()
@@ -52,7 +55,20 @@ public class CustomerServiceImpl implements CustomerService {
         }
 
         // TODO: make it async - add to queue
-        //notificationClient.sendNotification();
+        NotificationRequest notificationRequest = new NotificationRequest(
+                /*customer.getId(),
+                customer.getEmail(),
+                String.format("Hi %s, welcome to Glancies...", customer.getFirstName())*/
+                "First",
+                "First",
+                "First",
+                1L
+        );
+        rabbitMQMessageProducer.publish(
+                notificationRequest,
+                "internal.exchange",
+                "internal.notification.routing-key"
+                );
 
 
         return null;

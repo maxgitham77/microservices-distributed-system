@@ -23,6 +23,7 @@
         <module>notification</module>
         <module>employee</module>
         <module>api-gateway</module>
+        <module>amqp</module>
     </modules>
 	<scm>
 		<connection/>

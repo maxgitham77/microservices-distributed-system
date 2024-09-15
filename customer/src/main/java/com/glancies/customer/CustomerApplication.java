@@ -5,7 +5,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
-@SpringBootApplication
+@SpringBootApplication(
+        scanBasePackages = {
+                "com.glancies.customer",
+                "com.glacies.ampq"
+        }
+)
 @EnableFeignClients(basePackages = "com.glancies.clients")
 @Slf4j
 public class CustomerApplication {
