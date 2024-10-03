@@ -1,11 +1,12 @@
 server:
-  port: 8083
+  port: 8082
 
 spring:
   application:
-    name: notification
+    name: fraud
   datasource:
-    url: jdbc:mysql://${MYSQL_HOST:172.19.0.3}:${MYSQL_PORT:3306}/${MYSQL_DB_NAME:microservice_notification_db}?autoReconnect=true&useSSL=false
+    #url: jdbc:mysql://${MYSQL_HOST:172.19.0.3}:${MYSQL_PORT:3306}/${MYSQL_DB_NAME:microservice_fraud_db}?autoReconnect=true&useSSL=false
+    url: jdbc:mysql://mariadb:3306/microservice_fraud_db
     username: ${MYSQL_USER:admin}
     password: ${MYSQL_PASSWORD:password}
     driverClassName: com.mysql.cj.jdbc.Driver
@@ -15,9 +16,9 @@ spring:
     hibernate:
       ddl-auto: create-drop
   zipkin:
-    base-url: http://localhost:9411
+    base-url: http://zipkin:9411
   rabbitmq:
-    addresses: localhost:5672
+    addresses: rabbitmq:5672
 
 eureka:
   instance:
@@ -26,12 +27,4 @@ eureka:
     fetch-registry: true
     register-with-eureka: true
     service-url:
-      defaultZone: ${eureka_url:http://localhost:8761/eureka/}
-
-rabbitmq:
-  exchanges:
-    internal: internal.exchange
-  queues:
-    notification: notification.queue
-  routing-keys:
-    internal-notification: internal.notification.routing-key
+      defaultZone: ${eureka_url:http://eureka-server:8761/eureka/}

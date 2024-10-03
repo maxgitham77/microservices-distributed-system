@@ -33,23 +33,90 @@ services:
   zipkin:
     image: ghcr.io/openzipkin/zipkin-slim:${TAG:-latest}
     container_name: zipkin
-    #environment:
-      # - STORAGE_TYPE=mem
-      # Uncomment to enable self-tracing
-      # - SELF_TRACING_ENABLED=true
-      # Uncomment to increase heap size
-      # - JAVA_OPTS=-Xms128m -Xmx128m -XX:+ExitOnOutOfMemoryError
     ports:
-      # Port used for the Zipkin UI and HTTP Api
       - "9411:9411"
-    # Uncomment to enable debug logging
-    # command: --logging.level.zipkin2=DEBUG
+    networks:
+      - spring
+
   rabbitmq:
     image: rabbitmq:3.9.11-management-alpine
     container_name: rabbitmq
     ports:
       - "5672:5672"
       - "15672:15672"
+
+  eureka-server:
+    image: maxdoc2023/eureka-server:latest
+    container_name: eureka-server
+    ports:
+      - "8761:8761"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - spring
+    depends_on:
+      - zipkin
+
+  api-gateway:
+    image: maxdoc2023/api-gateway:latest
+    container_name: api-gateway
+    ports:
+      - "8084:8084"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - spring
+    depends_on:
+      - zipkin
+      - eureka-server
+
+  customer:
+    image: maxdoc2023/customer:latest
+    container_name: customer
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - spring
+      - db
+    depends_on:
+      - zipkin
+      - eureka-server
+      - mariadb
+      - rabbitmq
+
+  fraud:
+    image: maxdoc2023/fraud:latest
+    container_name: fraud
+    ports:
+      - "8082:8082"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - spring
+      - db
+    depends_on:
+      - zipkin
+      - eureka-server
+      - mariadb
+      - rabbitmq
+
+  notification:
+    image: maxdoc2023/notification:latest
+    container_name: notification
+    ports:
+      - "8083:8083"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - spring
+      - db
+    depends_on:
+      - zipkin
+      - eureka-server
+      - mariadb
+      - rabbitmq
 
 volumes:
   mariadb:
@@ -58,3 +125,6 @@ volumes:
 networks:
   db:
     driver: bridge
+  spring:
+    driver: bridge
+

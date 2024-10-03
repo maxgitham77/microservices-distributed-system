@@ -5,7 +5,7 @@ spring:
   application:
     name: fraud
   datasource:
-    url: jdbc:mysql://${MYSQL_HOST:172.18.0.3}:${MYSQL_PORT:3306}/${MYSQL_DB_NAME:microservice_fraud_db}?autoReconnect=true&useSSL=false
+    url: jdbc:mysql://${MYSQL_HOST:172.19.0.3}:${MYSQL_PORT:3306}/${MYSQL_DB_NAME:microservice_fraud_db}?autoReconnect=true&useSSL=false
     username: ${MYSQL_USER:admin}
     password: ${MYSQL_PASSWORD:password}
     driverClassName: com.mysql.cj.jdbc.Driver
